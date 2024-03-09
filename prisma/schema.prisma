@@ -29,12 +29,6 @@ model Categoria{
   productos Producto[]
 }
 
-model CategoriaAdmin{
-  id Int @id @default(autoincrement())
-  nombre String
-  icono String
-}
-
 model Orden{
   id Int @id @default(autoincrement())
   nombre String

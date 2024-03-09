@@ -127,7 +127,7 @@ const productos = [
     },
     {
         nombre: "Ensalada",
-        precio: 15,
+        precio: 150,
         imagen: "ensalada",
         categoriaId: 4
     }
