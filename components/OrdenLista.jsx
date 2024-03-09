@@ -44,24 +44,9 @@ const OrdenLista = ({ orden }) => {
         }
     }
 
-    console.log(clientePago);
-    console.log(clienteCambio);
-
-    // const calcularPago = (e) => {
-    //     const monto = parseFloat(e.target.value);
-    //     if (!isNaN(monto)) {
-    //         setMontoPagado(monto);
-    //         // Calcular el cambio
-    //         const cambioCalculado = monto - total;
-    //         setCambio(cambioCalculado.toFixed(2));// Redondear a dos decimales
-    //     } else {
-    //         setMontoPagado('');
-    //     }
-    // };
-
     const comprobarPedido = useCallback(() => {
         return clientePago < total || clientePago === '' || clienteCambio === '';
-    }, [clientePago])
+    }, [clientePago, clienteCambio, total])
 
     useEffect(() => {
         comprobarPedido()

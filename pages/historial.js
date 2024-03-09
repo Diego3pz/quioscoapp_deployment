@@ -6,7 +6,7 @@ import OrdenHistorial from "@/components/OrdenHistorial";
 import { Datepicker } from 'flowbite-react';
 
 
-export default function historial() {
+export default function Historial() {
 
     const fetcher = () => axios.get('/api/historial').then(datos => datos.data)
     const { data, error, isLoading } = useSWR('/api/historial', fetcher, { refreshInterval: 100 });
