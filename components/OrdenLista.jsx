@@ -11,6 +11,9 @@ const OrdenLista = ({ orden }) => {
     const { id, nombre, total, pedido, fecha } = orden
     const { clienteCambio, setClienteCambio, colocarOrdenHistorial, clientePago, setClientePago } = useQuiosco();
 
+    // Convertir la cadena JSON 'pedido' en un array
+    const pedidoArray = JSON.parse(pedido);
+
     const handleChange = (e, platilloId) => {
         const { value } = e.target;
         const restante = e.target.value;
@@ -54,68 +57,63 @@ const OrdenLista = ({ orden }) => {
 
 
     return (
-        <div className=" border p-10 space-y-5">
-            <h3 className=" text-2xl font-bold">Orden: {id}</h3>
+        <div className="border p-10 space-y-5">
+            <h3 className="text-2xl font-bold">Orden: {id}</h3>
             <p className="text-lg font-bold">Cliente: {nombre} </p>
             <div>
-                {pedido.map(platillo => (
-                    <>
-                        <div key={platillo.id} className=" py-3 flex border-b last-of-type:border-0 items-center">
-                            <div className=" w-32">
-                                <Image src={`/assets/img/${platillo.imagen}.jpg`} alt={`Imagen ${platillo.imagen}`}
-                                    width={400}
-                                    height={500}
-                                />
-                            </div>
-                            <div className=" p-5 space-y-2">
-                                <h4 className="text-xl font-bold text-amber-500">{platillo.nombre}</h4>
-                                {platillo.categoriaId === 1
-                                    ? <>
-                                        <div className=" mt-2">
-                                            <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">{platillo.primeraSalsa}
-
-                                            </span><span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">{platillo.segundaSalsa}
-                                            </span>
-                                        </div>
-
-                                    </>
-                                    : ''}
-                                <p className="mt-5 font-black text-xl text-amber-500">
-                                    <span className=" text-amber-800">sub total: {' '}</span>{formatearDinero(platillo.precio)}
-                                </p>
-                            </div>
-
+                {pedidoArray.map(platillo => (
+                    <div key={platillo.id} className="py-3 flex border-b last-of-type:border-0 items-center">
+                        <div className="w-32">
+                            <Image src={`/assets/img/${platillo.imagen}.jpg`} alt={`Imagen ${platillo.imagen}`}
+                                width={400}
+                                height={500}
+                            />
                         </div>
-
-                    </>
+                        <div className="p-5 space-y-2">
+                            <h4 className="text-xl font-bold text-amber-500">{platillo.nombre}</h4>
+                            {platillo.categoriaId === 1 &&
+                                <>
+                                    <div className="mt-2">
+                                        <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                            {platillo.primeraSalsa}
+                                        </span>
+                                        <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                            {platillo.segundaSalsa}
+                                        </span>
+                                    </div>
+                                </>
+                            }
+                            <p className="mt-5 font-black text-xl text-amber-500">
+                                <span className="text-amber-800">Sub total: </span>{formatearDinero(platillo.precio)}
+                            </p>
+                        </div>
+                    </div>
                 ))}
             </div>
 
             {/*MOSTRAR TOTAL, CAMBIO Y BOTON PARA PAGAR*/}
             <div className="md:flex md:items-center md:justify-between my-10">
-
                 <p className="mt-5 font-black text-4xl text-amber-500">
-                    <span className=" text-amber-800">Total a pagar:{' '}</span>{formatearDinero(total)}
+                    <span className="text-amber-800">Total a pagar: </span>{formatearDinero(total)}
                 </p>
 
                 <form onSubmit={colocarOrdenHistorial} className="mr-5 mt-5">
                     <label className="mt-5 font-black text-4xl">
-                        <span className=" text-zinc-800"> Pago:{' '}</span>
+                        <span className="text-zinc-800"> Pago:{' '}</span>
                     </label>
                     <input
                         type="text"
-                        className=" text-2xl shadow appearance-none border rounded w-full py-2 px-3 mt-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="text-2xl shadow appearance-none border rounded w-full py-2 px-3 mt-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         name={fecha}
                         value={inputValues[id] || ''}
                         onChange={(e) => handleChange(e, id)}
                     />
-                    <p className="font-black text-2xl mt-3 ">
+                    <p className="font-black text-2xl mt-3">
                         Cambio:{' '}
                         {clientePago >= total && (
                             <span className="text-blue-600">${clienteCambio}</span>
                         )}
                     </p>
-
                 </form>
 
                 <div className="mt-5">
@@ -125,7 +123,6 @@ const OrdenLista = ({ orden }) => {
                         value="Pagar Orden" disabled={comprobarPedido()} onClick={pagarOrden} />
                 </div>
             </div>
-
         </div>
     )
 }
