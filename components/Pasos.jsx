@@ -31,7 +31,7 @@ const Pasos = () => {
                         onClick={() => {
                             router.push(paso.url)
                         }}
-                        className="text-2xl font-bold"
+                        className="text-lg sm:text-2xl font-bold"
                         key={paso.paso}>
                         {paso.nombre}
                     </button>
